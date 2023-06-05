@@ -7,7 +7,9 @@
 3. visit `username.4000.network` to see the profile
 
 > comming soon: interface for managing a profile and its widgets
+
 > coming next: remove github dependency (todo: auth? + .profile.json hosting? + sync to github repo?)
+
 > then? theming? explore what can be done with "just a list of widgets aka custom-elements)?
 
 ## Dev
