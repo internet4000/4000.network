@@ -25,7 +25,7 @@
 				}
 				return config
 			}).then(config => {
-				const appElement = config["app-element"] || "4000-network"
+				const appElement = config["app-element"] || "network-4000"
 				const $app = document.createElement(appElement)
 
 				Object.entries(config).forEach(([key, value]) => {
