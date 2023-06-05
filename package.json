@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "npx serve -s .",
-		"build": "mkdir public && cp index.* public/ && cp .env.production.json public/.env.json"
+    "dev": "npx serve -s .",
+    "build": "./build.sh"
   },
   "repository": {
     "type": "git",
