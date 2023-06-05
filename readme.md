@@ -3,7 +3,7 @@
 ## Create a 4000 network subdomain page
 
 1. With a `github` accout, create a repository named `.4000.network`
-2. inside this repository create a `.profile.json` file ([example](https://github.com/internet4000/.4000.network "a .4000.network github repository for the .profile.json example file used as 4000.network subdomains configuration")
+2. inside this repository create a `.profile.json` file: [example](https://github.com/internet4000/.4000.network "a .4000.network github repository for the .profile.json example file used as 4000.network subdomains configuration")
 3. visit `username.4000.network` to see the profile
 
 > comming soon: interface for managing a profile and its widgets
