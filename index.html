@@ -39,6 +39,7 @@
 				document.querySelector(appContainer).append($app)
 				customElements.define(appElement, Network4000)
 				console.info(`${appElement} loaded with config`, JSON.stringify(config))
+				window.network4000 = $app
 			})
 		</script>
 	</head>

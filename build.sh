@@ -1,5 +1,3 @@
-rm -rf public
-mkdir public
-cp index.html public/
-cp -r src/ public/
-cp .env.production.json public/.env.json
+npm install
+vite build
+cp .env.production.json build/.env.json
