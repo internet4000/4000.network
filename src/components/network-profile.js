@@ -54,7 +54,7 @@ export default class NetworkProfile extends HTMLElement {
 	}
 	renderName() {
 		const $name = document.createElement("h1");
-		$name.innerHTML = this.name;
+		$name.innerText = window.Sanitizer.sanitize(this.name);
 		this.append($name);
 	}
 	renderWidgets() {
@@ -62,7 +62,9 @@ export default class NetworkProfile extends HTMLElement {
 		const $widgets = this.widgets.map(this.buildWidget.bind(this));
 		$widgets
 			.filter((widget) => !!widget)
-			.forEach(($widget) => this.append($widget));
+			.forEach(($widget) => {
+				this.append($widget);
+			});
 	}
 
 	/* build one widget from its data */

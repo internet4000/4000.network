@@ -1,3 +1,8 @@
+/* to be able to display user generated HTML content,
+	 we polifyll globaly the sanitizer  */
+import DOMPurify from "dompurify";
+window.Sanitizer = DOMPurify;
+
 /* the main app is not define yet */
 import Network4000 from "./components/network-4000.js";
 

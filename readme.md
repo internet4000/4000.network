@@ -28,3 +28,7 @@ Deploy a build with
 - managed (authorized) by vercel DNS on `*.4000.network`
 - handled by the javascript router
 - query to github.com/:subdomain/.4000.network/.env.json
+
+### Dependencies
+
+- using [DOMPurify](https://github.com/cure53/DOMPurify) for cleaning unwanted user content.

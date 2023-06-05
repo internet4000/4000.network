@@ -27,5 +27,8 @@
   "homepage": "https://github.com/internet4000/4000.network#readme",
   "devDependencies": {
     "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "dompurify": "^3.0.3"
   }
 }
