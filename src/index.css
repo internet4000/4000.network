@@ -1,0 +1,73 @@
+/* https://css-tricks.com/box-sizing/#aa-universal-box-sizing-with-inheritance */
+html {
+	box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+/* variables */
+:root,
+:host {
+	--size-font: 18px;
+	--size: 1.3em;
+	--sinze-font-0: 1rem;
+	--sinze-font-h1: 2rem;
+	--sinze-font-h2: 1.8rem;
+	--sinze-font-h2: 1.6rem;
+	--sinze-font-h3: 1.4rem;
+	--sinze-font-s1: 0.9rem;
+	--sinze-font-s2: 0.8rem;
+}
+@media screen (min-width: 50rem) {
+	:root,
+	:host {
+		--size-font: 21px;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	:root,
+	r4-app {
+		--color-text: white;
+		--color-background: black;
+		--color-link: purple;
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root,
+	r4-app {
+		--color-text: black;
+		--color-background: white;
+		--color-link: cyan;
+	}
+}
+
+html {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+/* variables applied */
+:root,
+:host {
+	font-size: var(--size-font);
+	background-color: var(--color-background);
+	color: var(--color-text);
+}
+
+/* text */
+a {
+	color: var(--color-text);
+}
+
+4000-network {
+}
