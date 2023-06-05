@@ -27,28 +27,12 @@ export default class NetworkProfile extends HTMLElement {
 
 	get widgets() {
 		if (this.config && this.config.widgets) {
-			return this.config.widgets;
+			return this.config.widgets.filter(({ type }) =>
+				AUTHORIZED_WIDGETS.includes(type)
+			);
 		} else {
 			return [];
 		}
-	}
-
-	buildWidget(widget) {
-		const { type: widgetElement, attributes } = widget;
-		const isAuthorized = AUTHORIZED_WIDGETS.includes(widgetElement);
-		if (!isAuthorized) return;
-		const $widget = document.createElement(widgetElement);
-
-		if (attributes) {
-			attributes.forEach(([key, value]) => {
-				if (typeof value === "object") {
-					$widget.setAttribute(key, JSON.stringify(value));
-				} else {
-					$widget.setAttribute(key, value);
-				}
-			});
-		}
-		return $widget;
 	}
 
 	attributeChangedCallback(attrName, oldVal, newVal) {
@@ -73,6 +57,27 @@ export default class NetworkProfile extends HTMLElement {
 		$widgets
 			.filter((widget) => !!widget)
 			.forEach(($widget) => this.append($widget));
+	}
+
+	/* build one widget from its data */
+	buildWidget(widget) {
+		const { type: widgetElement, attributes } = widget;
+		const innerText = widget["inner-text"];
+
+		const $widget = document.createElement(widgetElement);
+		if (attributes) {
+			attributes.forEach(([key, value]) => {
+				if (typeof value === "object") {
+					$widget.setAttribute(key, JSON.stringify(value));
+				} else {
+					$widget.setAttribute(key, value);
+				}
+			});
+		}
+		if (innerText) {
+			$widget.innerText = innerText;
+		}
+		return $widget;
 	}
 }
 
