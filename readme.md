@@ -1,6 +1,12 @@
 # 4000.network
 
-To be served for all subdomains of `*.4000.network`.
+## Create a 4000 network subdomain page
+
+1. With a github accout, create a repository named `.4000.network`
+2. inside this repository create a `.profile.json` file
+3. visit `githubUsername.4000.network` to see to profile
+
+> comming soon: interface for managing a profile and its widgets
 
 ## Dev
 
@@ -15,6 +21,6 @@ Deploy a build with
 
 ### Subdomains
 
-- managed (authorized) by vercel DNS
+- managed (authorized) by vercel DNS on `*.4000.network`
 - handled by the javascript router
 - query to github.com/:subdomain/.4000.network/.env.json

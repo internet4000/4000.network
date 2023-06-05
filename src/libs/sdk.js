@@ -28,7 +28,7 @@ const readSubdomain = async (subdomain) => {
 	let data, error;
 
 	try {
-		data = await fetcher.get4000NetworkGithub("internet4000");
+		data = await fetcher.get4000NetworkGithub(subdomain);
 	} catch (e) {
 		error = e;
 	}

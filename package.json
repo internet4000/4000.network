@@ -1,8 +1,8 @@
 {
-  "name": "@radio4000/profiles",
+  "name": "@i4k/4000-network",
   "version": "0.0.1",
-  "description": "subdomains site for slug.4000.network",
-  "main": "index.js",
+  "description": "subdomains site for *.4000.network",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx serve -s .",
@@ -10,15 +10,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/radio4000/profiles.git"
+    "url": "git+https://github.com/internet4000/4000.network.git"
   },
   "keywords": [
-    "radio4000"
+    "4000",
+    "networks",
+    "web-components"
   ],
   "author": "r4",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/radio4000/profiles/issues"
+    "url": "https://github.com/internet4000/4000.network/issues"
   },
-  "homepage": "https://github.com/radio4000/profiles#readme"
+  "homepage": "https://github.com/internet4000/4000.network#readme"
 }

@@ -85,17 +85,7 @@ export default class Network4000 extends HTMLElement {
 		$docsTitle.innerText = "404 - page not found";
 
 		const $docsText = document.createElement("p");
-		$docsText.innerText =
-			`The subdomain ${this.subdomain}, does not exist on ${this.hostname}` +
-			" ";
-
-		const $docsLink = document.createElement("a");
-		$docsLink.setAttribute(
-			"href",
-			"https://github.com/internet4000/4000.network"
-		);
-		$docsLink.innerText = "Explore the documentation.";
-		$docsText.append($docsLink);
+		$docsText.innerText = `The subdomain ${this.subdomain} does not exist on ${this.hostname}.`;
 
 		this.append($docsTitle);
 		this.append($docsText);
