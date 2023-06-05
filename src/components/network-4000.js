@@ -51,33 +51,41 @@ export default class Network4000 extends HTMLElement {
 	}
 
 	async connectedCallback() {
-		/* load a default profile for the homepage */
-		if (!this.subdomain) {
-			return this.renderHome();
-		}
-
 		/* if we're on a subdomain page, try loading it's config */
-		if (this.subdomain && !this.subdomainConfig) {
-			const { data: subdomainConfig, error } = await readSubdomain(
-				this.subdomain
-			);
-
+		if (this.subdomain) {
+			const { data, error } = await readSubdomain(this.subdomain);
 			/* if there are no config for a subdomain, load 404 */
-			if (!subdomainConfig) {
-				console.info("no subdomain config found for", this.subdomain, error);
-				return this.renderNoSubdomain(this.subdomain);
-			} else {
+			if (data) {
 				/* otherwise, let's load the config and render it */
-				this.subdomainConfig = subdomainConfig;
+				this.subdomainConfig = data;
 				this.setAttribute("subdomain", this.subdomain);
-				console.info(
-					"found subdomain config for",
-					this.subdomain,
-					this.subdomainConfig
-				);
 			}
 		}
-		return this.renderSubdomain();
+		this.render();
+	}
+
+	async render() {
+		if (!this.subdomain) {
+			this.renderHead({
+				title: this.hostname,
+			});
+			return this.renderHome();
+		}
+		if (!this.subdomainConfig) {
+			this.renderHead({
+				title: `404 - ${this.hostname}`,
+			});
+			return this.renderNoSubdomain();
+		}
+
+		/* html's head is managed in the component, above we clean it */
+		this.renderSubdomain();
+	}
+
+	renderHead({ title }) {
+		if (title) {
+			document.title = title;
+		}
 	}
 
 	renderNoSubdomain() {
@@ -92,7 +100,7 @@ export default class Network4000 extends HTMLElement {
 		const $docsText = document.createElement("p");
 		$docsText.innerText = `The subdomain ${this.subdomain} does not exist on ${this.hostname}.`;
 
-		this.append($pdocsTitle);
+		this.append($docsTitle);
 		this.append($docsText);
 	}
 

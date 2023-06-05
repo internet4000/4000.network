@@ -43,8 +43,14 @@ export default class NetworkProfile extends HTMLElement {
 	}
 	render() {
 		this.innerHTML = "";
+		this.name && this.renderHead();
 		this.name && this.renderName();
 		this.widgets && this.widgets.length && this.renderWidgets();
+	}
+	renderHead() {
+		if (this.name) {
+			document.title = this.name;
+		}
 	}
 	renderName() {
 		const $name = document.createElement("h1");
