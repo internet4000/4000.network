@@ -13,7 +13,7 @@ export default defineConfig({
 			formats: ["es"],
 			name: "4000-network",
 			// the proper extensions will be added
-			fileName: "index",
+			fileName: "network-4000",
 		},
 		rollupOptions: {
 			/* out input file to bundle the js & css */

@@ -114,7 +114,7 @@ export default class Network4000 extends HTMLElement {
 	}
 	renderHome() {
 		const $search = document.createElement("network-search");
-		$search.addEventListener("search", console.log);
+		$search.addEventListener("search", () => {});
 		$search.addEventListener("match", this.onSearchMatch.bind(this));
 		this.append($search);
 	}

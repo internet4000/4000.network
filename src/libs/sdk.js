@@ -19,6 +19,27 @@ class GithubFileFetcher {
 			console.error(error);
 		}
 	}
+
+	async search4000NetworkGithub(query) {
+		const url = `https://api.github.com/search/repositories?q=topic:4000-network+topic:profile-json+${query}`;
+
+		let data, error;
+		try {
+			const response = await fetch(url);
+			const json = await response.json();
+			data = json.items.map((item) => {
+				return {
+					subdomain: item.owner.login,
+					stargazers_count: item.stargazers_count,
+					topics: item.topics,
+				};
+			});
+		} catch (e) {
+			console.error("Error fetching search data", error);
+			error = e;
+		}
+		return { data, error };
+	}
 }
 
 const readSubdomain = async (subdomain) => {
@@ -37,4 +58,19 @@ const readSubdomain = async (subdomain) => {
 	};
 };
 
-export { DEFAULT_SUBDOMAIN, AUTHORIZED_WIDGETS, readSubdomain };
+const searchGithub = async (query) => {
+	const fetcher = new GithubFileFetcher();
+	let data, error;
+	try {
+		data = await fetcher.search4000NetworkGithub(query);
+	} catch (e) {
+		error = e;
+	}
+
+	return {
+		data,
+		error,
+	};
+};
+
+export { AUTHORIZED_WIDGETS, readSubdomain, searchGithub };

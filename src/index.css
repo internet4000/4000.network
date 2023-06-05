@@ -11,8 +11,8 @@ html {
 /* variables */
 :root,
 :host {
-	--size-font: 18px;
-	--size: 1.3em;
+	--size-font: 17px;
+	--size: 1.5em;
 	--sinze-font-0: 1rem;
 	--sinze-font-h1: 2rem;
 	--sinze-font-h2: 1.8rem;
@@ -69,5 +69,24 @@ a {
 	color: var(--color-text);
 }
 
-4000-network {
+/* form */
+fieldset {
+	border: none;
+}
+input,
+button {
+	padding: calc(var(--size) / 2);
+}
+/* styling the app itself */
+network-4000 {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+network-profile {
+	flex-grow: 1;
+	width: 100%;
 }

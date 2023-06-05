@@ -1,8 +1,10 @@
+import { searchGithub } from "../libs/sdk.js";
+
 const template = `
 <form>
 	<fieldset>
 		<label>
-			Search profiles
+			Find 4000 profile
 			<input type="text" list="search-results"/>
 		</label>
 		<datalist id="search-results"></datalist>
@@ -56,38 +58,17 @@ export default class NetworkSearch extends HTMLElement {
 	}
 
 	async search(value = "") {
-		const url = `https://api.github.com/search/repositories?q=topic:4000-network+topic:profile-json+${value}`;
-
-		let results, error;
-		try {
-			const response = await fetch(url);
-			const data = await response.json();
-			results = data.items.map((item) => {
-				return {
-					subdomain: item.owner.login,
-					stargazers_count: item.stargazers_count,
-					topics: item.topics,
-				};
-			});
-		} catch (e) {
-			console.error("Error fetching search data", error);
-			error = e;
-		}
-		const detail = {
-			data: results,
-			error,
-		};
+		const { data, error } = await searchGithub(value);
 		this.dispatchEvent(
 			new CustomEvent("search", {
-				detail: detail,
+				detail: { data, error },
 			})
 		);
-		return detail;
+		return data;
 	}
 
 	renderDatalist(data) {
 		this.$datatalist.innerHTML = "";
-		console.log(data);
 		data.forEach((item) => {
 			const $option = document.createElement("option");
 			$option.value = item.subdomain;

@@ -1,3 +1,4 @@
 npm install
 vite build
-cp .env.production.json build/.env.json
+rm dist/.env.json
+mv dist/.env.production.json dist/.env.json
