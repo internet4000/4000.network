@@ -5,10 +5,9 @@ const template = `
 	<fieldset>
 		<label>
 			Find 4000 profile
-			<input type="text" list="search-results"/>
+			<input type="text" list="search-results" placeholder="search profiles"/>
 		</label>
 		<datalist id="search-results"></datalist>
-		<button type="submit">Search</button>
 	</fieldset>
 </form>
 `;
