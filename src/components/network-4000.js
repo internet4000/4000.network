@@ -1,4 +1,4 @@
-import { readSubdomain, DEFAULT_SUBDOMAIN } from "../libs/sdk.js";
+import { readSubdomain } from "../libs/sdk.js";
 
 export default class Network4000 extends HTMLElement {
 	static get observedAttributes() {
@@ -6,9 +6,14 @@ export default class Network4000 extends HTMLElement {
 			/* props */
 			"hostname",
 			"subdomain",
+			"flag-development",
 			/* state */
 			"pathname",
 		];
+	}
+
+	get flagDev() {
+		return this.getAttribute("flag-development") === "true";
 	}
 
 	/* the hostname is the root domain,
@@ -37,18 +42,18 @@ export default class Network4000 extends HTMLElement {
 		return window.location.pathname;
 	}
 
+	onSearchMatch({ detail }) {
+		let url = `${window.location.protocol}//${detail.subdomain}.${this.hostname}`;
+		if (this.flagDev) {
+			const url = `http://${detail.subdomain}.${this.hostname}`;
+		}
+		window.location = url;
+	}
+
 	async connectedCallback() {
 		/* load a default profile for the homepage */
 		if (!this.subdomain) {
-			const { data: defaultSubdomainConfig, error } = await readSubdomain(
-				DEFAULT_SUBDOMAIN
-			);
-			this.subdomainConfig = defaultSubdomainConfig;
-			console.info(
-				"found subdomain config for default homepage subdomain",
-				DEFAULT_SUBDOMAIN,
-				this.subdomainConfig
-			);
+			return this.renderHome();
 		}
 
 		/* if we're on a subdomain page, try loading it's config */
@@ -87,7 +92,7 @@ export default class Network4000 extends HTMLElement {
 		const $docsText = document.createElement("p");
 		$docsText.innerText = `The subdomain ${this.subdomain} does not exist on ${this.hostname}.`;
 
-		this.append($docsTitle);
+		this.append($pdocsTitle);
 		this.append($docsText);
 	}
 
@@ -98,5 +103,11 @@ export default class Network4000 extends HTMLElement {
 			$profile.setAttribute("config", JSON.stringify(this.subdomainConfig));
 		}
 		this.append($profile);
+	}
+	renderHome() {
+		const $search = document.createElement("network-search");
+		$search.addEventListener("search", console.log);
+		$search.addEventListener("match", this.onSearchMatch.bind(this));
+		this.append($search);
 	}
 }
