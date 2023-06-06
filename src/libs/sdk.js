@@ -1,76 +1,86 @@
-const DEFAULT_SUBDOMAIN = "internet4000";
-
-const AUTHORIZED_WIDGETS = ["matrix-room-element", "p"];
+const AUTHORIZED_WIDGETS_MAP = {
+	"matrix-room-element": [],
+	p: [],
+};
+const AUTHORIZED_WIDGETS = Object.keys(AUTHORIZED_WIDGETS_MAP);
 
 class GithubFileFetcher {
-	constructor() {}
-
-	async get4000NetworkGithub(githubUsername) {
-		let url = `https://raw.githubusercontent.com/${githubUsername}/.4000.network/main/.profile.json`;
-		try {
-			let response = await fetch(url);
-			if (response.ok) {
-				let json = await response.json();
-				return json;
-			} else {
-				console.error("HTTP-Error: " + response.status);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	async search4000NetworkGithub(query) {
-		const url = `https://api.github.com/search/repositories?q=topic:4000-network+topic:profile-json+${query}`;
-
+	async fetchData(url) {
 		let data, error;
 		try {
 			const response = await fetch(url);
-			const json = await response.json();
-			data = json.items.map((item) => {
-				return {
-					subdomain: item.owner.login,
-					stargazers_count: item.stargazers_count,
-					topics: item.topics,
-				};
-			});
+			if (response.ok) {
+				try {
+					data = await response.json();
+				} catch (e) {
+					error = e;
+				}
+			} else {
+				error = response;
+			}
 		} catch (e) {
-			console.error("Error fetching search data", error);
 			error = e;
 		}
 		return { data, error };
 	}
+
+	async get4000NetworkGithub(githubUsername) {
+		const url = this.get4000NetworkGithubFileRawUrl(githubUsername);
+		return this.fetchData(url);
+	}
+
+	async search4000NetworkGithub(query) {
+		const url = this.get4000NetworkGithubSearchUrl(query);
+		let { data, error } = await this.fetchData(url);
+
+		if (!error) {
+			data = data.items.map((item) => ({
+				subdomain: item.owner.login,
+				stargazers_count: item.stargazers_count,
+				topics: item.topics,
+			}));
+		}
+		return { data, error };
+	}
+
+	/* docs: https://docs.github.com/en/search-github/searching-on-github/searching-in-forks */
+	get4000NetworkGithubSearchUrl(query) {
+		return `https://api.github.com/search/repositories?q=fork:true+topic:4000-network+topic:profile-json+${query}`;
+	}
+
+	get4000NetworkGithubFileRawUrl(actor) {
+		return `https://raw.githubusercontent.com/${actor}/.4000.network/main/.profile.json`;
+	}
+
+	get4000NetworkGithubFileUrl(actor) {
+		return `https://github.com/${actor}/.4000.network/blob/main/.profile.json`;
+	}
+
+	get4000NetworkGithubFileEditUrl(actor) {
+		return `https://github.com/${actor}/.4000.network/edit/main/.profile.json`;
+	}
 }
 
-const readSubdomain = async (subdomain) => {
-	const fetcher = new GithubFileFetcher();
-	let data, error;
+const fetcher = new GithubFileFetcher();
 
-	try {
-		data = await fetcher.get4000NetworkGithub(subdomain);
-	} catch (e) {
-		error = e;
-	}
+const readSubdomain = (subdomain) => fetcher.get4000NetworkGithub(subdomain);
 
-	return {
-		data,
-		error,
-	};
+const searchGithub = (query) => fetcher.search4000NetworkGithub(query);
+
+const getProfileFileUrl = (subdomain) =>
+	fetcher.get4000NetworkGithubFileUrl(subdomain);
+
+const getProfileFileEditUrl = (subdomain) =>
+	fetcher.get4000NetworkGithubFileEditUrl(subdomain);
+
+const getProfileFileRawUrl = (subdomain) =>
+	fetcher.get4000NetworkGithubFileRawUrl(subdomain);
+
+export {
+	AUTHORIZED_WIDGETS,
+	readSubdomain,
+	searchGithub,
+	getProfileFileEditUrl,
+	getProfileFileUrl,
+	getProfileFileRawUrl,
 };
-
-const searchGithub = async (query) => {
-	const fetcher = new GithubFileFetcher();
-	let data, error;
-	try {
-		data = await fetcher.search4000NetworkGithub(query);
-	} catch (e) {
-		error = e;
-	}
-
-	return {
-		data,
-		error,
-	};
-};
-
-export { AUTHORIZED_WIDGETS, readSubdomain, searchGithub };

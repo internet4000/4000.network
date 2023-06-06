@@ -13,13 +13,13 @@ html {
 :host {
 	--size-font: 17px;
 	--size: 1.5em;
-	--sinze-font-0: 1rem;
-	--sinze-font-h1: 2rem;
-	--sinze-font-h2: 1.8rem;
-	--sinze-font-h2: 1.6rem;
-	--sinze-font-h3: 1.4rem;
-	--sinze-font-s1: 0.9rem;
-	--sinze-font-s2: 0.8rem;
+	--size-font-0: 1rem;
+	--size-font-h1: 2rem;
+	--size-font-h2: 1.8rem;
+	--size-font-h2: 1.6rem;
+	--size-font-h3: 1.4rem;
+	--size-font-s1: 0.9rem;
+	--size-font-s2: 0.8rem;
 }
 @media screen (min-width: 50rem) {
 	:root,
@@ -83,10 +83,20 @@ network-4000 {
 	flex-direction: column;
 	flex-grow: 1;
 	justify-content: center;
+}
+network-4000:not([subdomain]) {
 	align-items: center;
 }
 
 network-profile {
 	flex-grow: 1;
 	width: 100%;
+}
+
+network-4000[is-editing="true"] {
+	flex-direction: row;
+}
+network-profile-edit {
+	border: 1px solid var(--color-text);
+	padding: var(--size);
 }

@@ -27,8 +27,8 @@ export default class NetworkProfile extends HTMLElement {
 
 	get widgets() {
 		if (this.config && this.config.widgets) {
-			return this.config.widgets.filter(({ type }) =>
-				AUTHORIZED_WIDGETS.includes(type)
+			return this.config.widgets.filter(({ element }) =>
+				AUTHORIZED_WIDGETS.includes(element)
 			);
 		} else {
 			return [];
@@ -36,7 +36,6 @@ export default class NetworkProfile extends HTMLElement {
 	}
 
 	attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log("attr changed", attrName, oldVal, newVal);
 		if (["config"].includes(attrName)) {
 			this.render();
 		}
@@ -58,21 +57,18 @@ export default class NetworkProfile extends HTMLElement {
 		this.append($name);
 	}
 	renderWidgets() {
-		console.log(this);
 		const $widgets = this.widgets.map(this.buildWidget.bind(this));
-		$widgets
-			.filter((widget) => !!widget)
-			.forEach(($widget) => {
-				this.append($widget);
-			});
+		$widgets.forEach(($widget) => {
+			this.append($widget);
+		});
 	}
 
 	/* build one widget from its data */
 	buildWidget(widget) {
-		const { type: widgetElement, attributes } = widget;
+		const { element, attributes } = widget;
 		const innerText = widget["inner-text"];
 
-		const $widget = document.createElement(widgetElement);
+		const $widget = document.createElement(element);
 		if (attributes) {
 			attributes.forEach(([key, value]) => {
 				if (typeof value === "object") {

@@ -41,9 +41,11 @@ export default class NetworkSearch extends HTMLElement {
 			}
 		});
 
-		this.$form.addEventListener("submit", () => {
+		this.$form.addEventListener("submit", async () => {
 			event.preventDefault();
-			const { data, error } = this.search(this.input);
+			const res = await this.search(this.input);
+			debugger;
+			const { data, error } = res;
 			if (data) {
 				this.searchResults = data;
 			}
@@ -63,7 +65,7 @@ export default class NetworkSearch extends HTMLElement {
 				detail: { data, error },
 			})
 		);
-		return data;
+		return { data, error };
 	}
 
 	renderDatalist(data) {

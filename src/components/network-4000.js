@@ -9,11 +9,29 @@ export default class Network4000 extends HTMLElement {
 			"flag-development",
 			/* state */
 			"pathname",
+
+			/* url search params state */
+			"is-editing",
 		];
 	}
 
 	get flagDev() {
 		return this.getAttribute("flag-development") === "true";
+	}
+
+	get searchParams() {
+		const searchParams = new URLSearchParams(window.location.search);
+		return {
+			edit: searchParams.has("edit"),
+			query: searchParams.get("query"),
+		};
+	}
+
+	get isEditing() {
+		return this.searchParams.edit;
+	}
+	set isEditing(bool) {
+		this.setAttribute("is-editing", bool);
 	}
 
 	/* the hostname is the root domain,
@@ -51,6 +69,9 @@ export default class Network4000 extends HTMLElement {
 	}
 
 	async connectedCallback() {
+		if (this.isEditing) {
+			this.setAttribute("is-editing", this.isEditing);
+		}
 		/* if we're on a subdomain page, try loading it's config */
 		if (this.subdomain) {
 			const { data, error } = await readSubdomain(this.subdomain);
@@ -59,6 +80,9 @@ export default class Network4000 extends HTMLElement {
 				/* otherwise, let's load the config and render it */
 				this.subdomainConfig = data;
 				this.setAttribute("subdomain", this.subdomain);
+			}
+			if (error) {
+				this.subdomainError = error;
 			}
 		}
 		this.render();
@@ -90,10 +114,6 @@ export default class Network4000 extends HTMLElement {
 
 	renderNoSubdomain() {
 		this.innerHTML = "";
-		const $info = document.createElement("network-page");
-		$info.setAttribute("pathname", this.pathname);
-		$info.setAttribute("name", "home");
-
 		const $docsTitle = document.createElement("h1");
 		$docsTitle.innerText = "404 - page not found";
 
@@ -102,6 +122,13 @@ export default class Network4000 extends HTMLElement {
 
 		this.append($docsTitle);
 		this.append($docsText);
+
+		if (this.subdomainError) {
+			const $info = document.createElement("p");
+			$info.innerText =
+				"The subdomain config seems to be a malformed JSON; check the javascript console";
+			this.append($info);
+		}
 	}
 
 	renderSubdomain() {
@@ -111,6 +138,14 @@ export default class Network4000 extends HTMLElement {
 			$profile.setAttribute("config", JSON.stringify(this.subdomainConfig));
 		}
 		this.append($profile);
+
+		/* render edit, if query param request */
+		if (this.searchParams.edit) {
+			const $profileEdit = document.createElement("network-profile-edit");
+			$profileEdit.setAttribute("config", JSON.stringify(this.subdomainConfig));
+			$profileEdit.setAttribute("subdomain", this.subdomain);
+			this.append($profileEdit);
+		}
 	}
 	renderHome() {
 		const $search = document.createElement("network-search");
