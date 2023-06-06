@@ -34,7 +34,7 @@ class GithubFileFetcher {
 		let { data, error } = await this.fetchData(url);
 
 		if (!error) {
-			data = data.items.map((item) => ({
+			data.items = data.items.map((item) => ({
 				subdomain: item.owner.login,
 				stargazers_count: item.stargazers_count,
 				topics: item.topics,
@@ -78,6 +78,7 @@ const getProfileFileRawUrl = (subdomain) =>
 
 export {
 	AUTHORIZED_WIDGETS,
+	AUTHORIZED_WIDGETS_MAP,
 	readSubdomain,
 	searchGithub,
 	getProfileFileEditUrl,
