@@ -73,8 +73,10 @@ export default class NetworkSearch extends HTMLElement {
 	}
 
 	renderResultsInfo(results) {
-		this.setAttribute("total_count", results.total_count);
-		this.setAttribute("results_count", results.items.length);
+		this.setAttribute("total-count", results.total_count);
+		if (results.total_count !== results.items.length) {
+			this.setAttribute("results-count", results.items.length);
+		}
 	}
 
 	renderDatalist({ items }) {

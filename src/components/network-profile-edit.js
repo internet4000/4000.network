@@ -4,6 +4,27 @@ import {
 	getProfileFileUrl,
 } from "../libs/sdk.js";
 
+const buildTemplate = ({ jsonValidatorUrl, editUrl, fileUrl }) => {
+	return `
+		<details open=true>
+			<summary>?</summary>
+			<p>Edit config</p>
+			<ul>
+				<li>
+					<a href="${editUrl}">edit</a>
+				</li>
+				<li>
+					<a href="${fileUrl}">view</a>
+				</li>
+				<li>
+					<a href="${jsonValidatorUrl}">JSON validator</a>
+				</li>
+			</ul>
+			<ol></ol>
+		</details>
+	`;
+};
+
 export default class NetworkProfileEdit extends HTMLElement {
 	static get observedAttributes() {
 		return [
@@ -51,24 +72,24 @@ export default class NetworkProfileEdit extends HTMLElement {
 		}
 	}
 
+	connectedCallback() {
+		this.innerHTML = buildTemplate({
+			jsonValidatorUrl: `https://duckduckgo.com/?q=json+validator`,
+			editUrl: getProfileFileEditUrl(this.subdomain),
+			fileUrl: getProfileFileUrl(this.subdomain),
+		});
+		this.$widgets = this.querySelector("ol");
+	}
+
 	render() {
-		const jsonValidatorUrl = `https://duckduckgo.com/?q=json+validator`;
-		const editUrl = getProfileFileEditUrl(this.subdomain);
-		const fileUrl = getProfileFileUrl(this.subdomain);
-		this.innerHTML = `
-			<p>Edit config</p>
-			<ul>
-				<li>
-					<a href="${editUrl}">edit</a>
-				</li>
-				<li>
-					<a href="${fileUrl}">view</a>
-				</li>
-				<li>
-					<a href="${jsonValidatorUrl}">JSON validator</a>
-				</li>
-			</ul>
-		`;
+		if (this.widgets) {
+			this.renderWidgets();
+		}
+	}
+	renderWidgets() {
+		this.widgets.forEach((widget) => {
+			console.log(widget);
+		});
 	}
 }
 

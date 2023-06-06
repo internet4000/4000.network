@@ -64,6 +64,18 @@ body {
 	color: var(--color-text);
 }
 
+/* animations */
+@keyframes LoadingRotate {
+	0% {
+		transform: rotate(0);
+		opacity: 1;
+	}
+	100% {
+		transform: rotate(-360deg);
+		opacity: 0;
+	}
+}
+
 /* text */
 a {
 	color: var(--color-text);
@@ -99,4 +111,20 @@ network-4000[is-editing="true"] {
 network-profile-edit {
 	border: 1px solid var(--color-text);
 	padding: var(--size);
+}
+network-search {
+	display: flex;
+	align-items: center;
+}
+network-search[results-count]::after,
+network-search[total-count]::after {
+	display: inline;
+	font-style: italic;
+}
+network-search[total-count]::after {
+	content: attr(total-count);
+}
+network-search:not([total-count])::after {
+	content: "¿";
+	animation: LoadingRotate 333ms infinite ease-in-out;
 }
