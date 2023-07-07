@@ -1,6 +1,7 @@
 {
   "name": "@internet4000/4000-network",
   "version": "0.0.1",
+  "private": false,
   "description": "Subdomains profile site for *.4000.network",
   "type": "module",
   "main": "src/index.js",
