@@ -1,4 +1,4 @@
-import { searchGithub } from "../libs/sdk.js";
+import { searchNetwork } from "../libs/sdk.js";
 import { homepage } from "../../package.json";
 
 const template = `
@@ -14,6 +14,12 @@ const template = `
 `;
 
 export default class NetworkSearch extends HTMLElement {
+	static get observedAttributes() {
+		return ["did-method"];
+	}
+	get didMethod() {
+		return this.getAttribute("did-method") || "github";
+	}
 	constructor() {
 		super();
 	}
@@ -59,7 +65,7 @@ export default class NetworkSearch extends HTMLElement {
 	}
 
 	async search(value = "") {
-		const { data, error } = await searchGithub(value);
+		const { data, error } = await searchNetwork(value, this.didMethod);
 		this.dispatchEvent(
 			new CustomEvent("search", {
 				detail: { data, error },
