@@ -72,6 +72,11 @@ export default class Network4000 extends HTMLElement {
 		window.location = url;
 	}
 
+	onContentInput(event) {
+		console.log("on content input", event);
+		// parse document (y3js?)
+	}
+
 	async connectedCallback() {
 		if (this.isEditing) {
 			this.setAttribute("is-editing", this.isEditing);
@@ -144,6 +149,10 @@ export default class Network4000 extends HTMLElement {
 		$profile.setAttribute("did-method", this.didMethod);
 		if (this.subdomainConfig) {
 			$profile.setAttribute("config", JSON.stringify(this.subdomainConfig));
+		}
+		if (this.searchParams.edit) {
+			$profile.setAttribute("contenteditable", true);
+			$profile.addEventListener("input", this.onContentInput.bind(this));
 		}
 		this.append($profile);
 
