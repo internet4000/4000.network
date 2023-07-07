@@ -1,15 +1,16 @@
 import { searchGithub } from "../libs/sdk.js";
+import { homepage } from "../../package.json";
 
 const template = `
-<form>
-	<fieldset>
-		<label>
-			Find 4000 profile
-			<input type="text" list="search-results" placeholder="search profiles"/>
-		</label>
-		<datalist id="search-results"></datalist>
-	</fieldset>
-</form>
+	<form>
+		<fieldset>
+			<label>
+				Find <a href="${homepage}">4000</a> profile
+				<input type="text" list="search-results" placeholder="username"/>
+			</label>
+			<datalist id="search-results"></datalist>
+		</fieldset>
+	</form>
 `;
 
 export default class NetworkSearch extends HTMLElement {
