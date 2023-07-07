@@ -1,7 +1,7 @@
 import {
 	AUTHORIZED_WIDGETS,
-	getProfileFileEditUrl,
-	getProfileFileUrl,
+	getDocumentEditUrl,
+	getDocumentUrl,
 } from "../libs/sdk.js";
 
 const buildTemplate = ({ jsonValidatorUrl, editUrl, fileUrl }) => {
@@ -20,7 +20,7 @@ const buildTemplate = ({ jsonValidatorUrl, editUrl, fileUrl }) => {
 					<a href="${jsonValidatorUrl}">JSON validator</a>
 				</li>
 			</ul>
-			<ol></ol>
+			<section></section>
 		</details>
 	`;
 };
@@ -31,6 +31,7 @@ export default class NetworkProfileEdit extends HTMLElement {
 			/* props */
 			"config",
 			"subdomain",
+			"did-method",
 		];
 	}
 
@@ -38,7 +39,9 @@ export default class NetworkProfileEdit extends HTMLElement {
 	get subdomain() {
 		return this.getAttribute("subdomain");
 	}
-
+	get didMethod() {
+		return this.getAttribute("did-method") || "github";
+	}
 	/* get the config for a subdomain profile */
 	get config() {
 		let data;
@@ -47,7 +50,6 @@ export default class NetworkProfileEdit extends HTMLElement {
 		} catch (e) {}
 		return data;
 	}
-
 	get name() {
 		if (this.config && this.config.name) {
 			return this.config.name;
@@ -75,21 +77,20 @@ export default class NetworkProfileEdit extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML = buildTemplate({
 			jsonValidatorUrl: `https://duckduckgo.com/?q=json+validator`,
-			editUrl: getProfileFileEditUrl(this.subdomain),
-			fileUrl: getProfileFileUrl(this.subdomain),
+			editUrl: getDocumentEditUrl(this.subdomain, this.didMethod),
+			fileUrl: getDocumentUrl(this.subdomain, this.didMethod),
 		});
 		this.$widgets = this.querySelector("ol");
 	}
 
 	render() {
 		if (this.widgets) {
-			this.renderWidgets();
+			this.renderWidgetsManager();
 		}
 	}
-	renderWidgets() {
-		this.widgets.forEach((widget) => {
-			console.log(widget);
-		});
+	renderWidgetsManager() {
+		const $widgetManager = document.createElement("widget-manager");
+		this.append($widgetManager);
 	}
 }
 

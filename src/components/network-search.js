@@ -1,18 +1,25 @@
-import { searchGithub } from "../libs/sdk.js";
+import { searchNetwork } from "../libs/sdk.js";
+import { homepage } from "../../package.json";
 
 const template = `
-<form>
-	<fieldset>
-		<label>
-			Find 4000 profile
-			<input type="text" list="search-results" placeholder="search profiles"/>
-		</label>
-		<datalist id="search-results"></datalist>
-	</fieldset>
-</form>
+	<form>
+		<fieldset>
+			<label>
+				Find <a href="${homepage}">4000</a> profile
+				<input type="text" list="search-results" placeholder="username"/>
+			</label>
+			<datalist id="search-results"></datalist>
+		</fieldset>
+	</form>
 `;
 
 export default class NetworkSearch extends HTMLElement {
+	static get observedAttributes() {
+		return ["did-method"];
+	}
+	get didMethod() {
+		return this.getAttribute("did-method") || "github";
+	}
 	constructor() {
 		super();
 	}
@@ -58,7 +65,7 @@ export default class NetworkSearch extends HTMLElement {
 	}
 
 	async search(value = "") {
-		const { data, error } = await searchGithub(value);
+		const { data, error } = await searchNetwork(value, this.didMethod);
 		this.dispatchEvent(
 			new CustomEvent("search", {
 				detail: { data, error },

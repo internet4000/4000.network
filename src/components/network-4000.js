@@ -1,4 +1,4 @@
-import { readSubdomain } from "../libs/sdk.js";
+import { readDocument } from "../libs/sdk.js";
 
 export default class Network4000 extends HTMLElement {
 	static get observedAttributes() {
@@ -6,6 +6,7 @@ export default class Network4000 extends HTMLElement {
 			/* props */
 			"hostname",
 			"subdomain",
+			"did-method",
 			"flag-development",
 			/* state */
 			"pathname",
@@ -42,6 +43,9 @@ export default class Network4000 extends HTMLElement {
 	get origin() {
 		return new URL(`https://${this.hostname || window.location.origin}`);
 	}
+	get didMethod() {
+		return this.getAttribute("did-method") || "github";
+	}
 	get allowedOrigins() {
 		return [this.origin];
 	}
@@ -68,13 +72,21 @@ export default class Network4000 extends HTMLElement {
 		window.location = url;
 	}
 
+	onContentInput(event) {
+		console.log("on content input", event);
+		// parse document (y3js?)
+	}
+
 	async connectedCallback() {
 		if (this.isEditing) {
 			this.setAttribute("is-editing", this.isEditing);
 		}
 		/* if we're on a subdomain page, try loading it's config */
 		if (this.subdomain) {
-			const { data, error } = await readSubdomain(this.subdomain);
+			const { data, error } = await readDocument(
+				this.subdomain,
+				this.didMethod
+			);
 			/* if there are no config for a subdomain, load 404 */
 			if (data) {
 				/* otherwise, let's load the config and render it */
@@ -134,8 +146,13 @@ export default class Network4000 extends HTMLElement {
 	renderSubdomain() {
 		this.innerHTML = "";
 		const $profile = document.createElement("network-profile");
+		$profile.setAttribute("did-method", this.didMethod);
 		if (this.subdomainConfig) {
 			$profile.setAttribute("config", JSON.stringify(this.subdomainConfig));
+		}
+		if (this.searchParams.edit) {
+			$profile.setAttribute("contenteditable", true);
+			$profile.addEventListener("input", this.onContentInput.bind(this));
 		}
 		this.append($profile);
 
@@ -149,6 +166,7 @@ export default class Network4000 extends HTMLElement {
 	}
 	renderHome() {
 		const $search = document.createElement("network-search");
+		$search.setAttribute("did-method", this.didMethod);
 		$search.addEventListener("search", () => {});
 		$search.addEventListener("match", this.onSearchMatch.bind(this));
 		this.append($search);

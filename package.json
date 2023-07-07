@@ -1,7 +1,7 @@
 {
-  "name": "@i4k/4000-network",
+  "name": "@internet4000/4000-network",
   "version": "0.0.1",
-  "description": "subdomains site for *.4000.network",
+  "description": "Subdomains profile site for *.4000.network",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/internet4000/4000.network/issues"
   },
-  "homepage": "https://github.com/internet4000/4000.network#readme",
+  "homepage": "https://github.com/internet4000/4000.network",
   "devDependencies": {
     "vite": "^4.3.9"
   },

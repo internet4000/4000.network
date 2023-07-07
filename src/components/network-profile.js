@@ -5,6 +5,7 @@ export default class NetworkProfile extends HTMLElement {
 		return [
 			/* props */
 			"config",
+			"did-method",
 		];
 	}
 
@@ -15,6 +16,9 @@ export default class NetworkProfile extends HTMLElement {
 			data = JSON.parse(this.getAttribute("config"));
 		} catch (e) {}
 		return data;
+	}
+	get didMethod() {
+		return this.getAttribute("did-method") || "github";
 	}
 
 	get name() {
