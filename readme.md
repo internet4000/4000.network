@@ -52,7 +52,9 @@ When running a local server (here with vite), we can use subdomains in the URL j
 
 ### Subdomains
 
-How subdomain handling works
+Now managed by cloudflare and a `*` wildcard CNAME for all subdomains.
+
+How subdomain handling used to works
 
 - managed (authorized) by vercel DNS on `*.4000.network` and `vercel.json`
 - handled by the javascript web component `network-4000.subdomain` getter
