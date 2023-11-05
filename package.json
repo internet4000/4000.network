@@ -7,7 +7,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./build.sh",
+    "build": "vite build && ./build.sh",
     "dev": "vite --port=4001",
     "preview": "vite preview"
   },
@@ -15,11 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/internet4000/4000.network.git"
   },
-  "keywords": [
-    "4000",
-    "networks",
-    "web-components"
-  ],
+  "keywords": ["4000", "networks", "web-components"],
   "author": "r4",
   "license": "GPL-3.0-or-later",
   "bugs": {
