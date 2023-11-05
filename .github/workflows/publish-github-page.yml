@@ -33,11 +33,14 @@ jobs:
       - run: mv dist/.env.production.json dist/.env.json
   deploy:
     needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
