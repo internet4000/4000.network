@@ -1,3 +1,14 @@
+> Notes: the project was intented as a DNS + frontend only application
+> for handling subdomains on a wildcard domain `*.4000.network`. But
+> there are limitations from cloudlfare domains (custom nameservers
+> need an expensive PRO plan), when the page is hosted with
+> vercel. When the page is hosted by github pages, it seems cloudlfare
+> (DNS) and github pages, do not want to accept wildcard subdomains
+> DNS. Therefore this project is "dead" but used to workd (when the
+> domain was rented at google domains). One solution is to continue it
+> without subdomains (eg: `internet4000.4000.network` would just be
+> `4000.network/internet4000`) but where is the fun in this.
+
 # 4000.network
 
 This project is a prototype attempt at creating a user managed network of
@@ -63,6 +74,8 @@ Notes:
 cloudflare DNS
 - maybe if not `vercel` and subdomain hosting, make it work with
   `/:gh_username`, as path of the app?
+- to use `*.4000.network` wildcard subdomain with a domain name rented
+  at cloudflare, and a page hosted at vercel, it is required to have a Cloudflare pro plan (mega expensive), because it is the only way to use the vercel nameservers (required by vercel). Therefore we cannot do that.
 
 ### Dependencies
 
