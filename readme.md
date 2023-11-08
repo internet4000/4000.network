@@ -52,13 +52,17 @@ When running a local server (here with vite), we can use subdomains in the URL j
 
 ### Subdomains
 
-Now managed by cloudflare and a `*` wildcard CNAME for all subdomains.
-
 How subdomain handling used to works
-
+- cloudflare `A` record on `@` (root) to `vercel` DNS ip
 - managed (authorized) by vercel DNS on `*.4000.network` and `vercel.json`
 - handled by the javascript web component `network-4000.subdomain` getter
 - currently make a query to github.com/:subdomain/.4000.network/.env.json
+
+Notes:
+- whatever was tried, could not make it work with github pages and
+cloudflare DNS
+- maybe if not `vercel` and subdomain hosting, make it work with
+  `/:gh_username`, as path of the app?
 
 ### Dependencies
 
