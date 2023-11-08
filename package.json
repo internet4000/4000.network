@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite --port=4001",
     "build": "vite build",
+    "build-production": "vite build && cp public/.env.production.json dist/.env.json",
     "preview": "vite preview"
   },
   "repository": {
